@@ -6,6 +6,8 @@ void initialize_preset_dice(struct preset_dice* input_array_of_dice) {
 		input_array_of_dice[i].position = 0;
 	}
 
+	//test
+
 	// initializes individual potential chars for each dice
 	input_array_of_dice[0].configurations = "RIFOBX";
 	input_array_of_dice[1].configurations = "IFEHEY";
