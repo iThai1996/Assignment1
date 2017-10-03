@@ -181,13 +181,10 @@ int main (int argc, char ** argv) {
 	            turnCount++;
 	            system("clear");
    		    }
-
 		    for (int i = 0; i < 4; i++) {
 			    free(gameBoard[i]);
 		    }
-
 		    free_all(head);
-
 	    }//end of the while loop
 	
 	else if (argc == 2) {
@@ -214,66 +211,74 @@ int main (int argc, char ** argv) {
 		}
 
 		while (fgets (testLine, MAX_LINE, testFileFP)! = NULL ) {
+			
 			testLine[strcspn(testLine, "\r\n")] = '\0';  //trim new line characters
 			if(fileLineCounter == 1) {
 					convert_to_board(testLine, &testBoard);
 					// this can be removed, its just for testing purposes
 					for (i = 0; i < 4; i++) {
+						
 						for (j = 0; j < 4; j++) {
+						
 							if (j != 3) {
 								fprintf(stdout, "%c \t", testBoard[i][j]);
-							}
+							}						
 							else {
 								fprintf(stdout, "%c \n", testBoard[i][j]);
 							}
 						}				
 					}//eof for loop i
 			}//eof if
-		else if (fileLineCounter >= 2) {
-			for (char* ptr = strtok(test_line,","); ptr != NULL; ptr = strtok(NULL, ",")) {
-				checkEnglish = lookup(englishDictionary, BIG_HASH_SIZE, convert_to_upper(&ptr));						
-				if (check_english != NULL) {
-					check_submitted = lookup (guessed_words, SMALL_HASH_SIZE, p);
-					if (check_submitted == NULL) {
-						if(test_word_checker(test_board, p)){
-							insert (guessed_words, SMALL_HASH_SIZE, p);
-							increment_total_score(&test_points, p);
-							fprintf(stdout,"Correct! You total score is now: %d \n",test_points );	
-						}
-						else{
-								if(begin == 0){								
-									fprintf(output_FP, "%s", p );
-									begin++;
-								}else{
-									fprintf(output_FP, ",%s", p );
-								}
-								
-								fprintf(stderr,"The submitted word: \'%s\'' does not abide game rules. Try again!\n", p);								
-							}
-
-						}else{
-								if(begin == 0){								
-									fprintf(outputFP, "%s", p);
-									begin++;
-								}else{
-									fprintf(outputFP, ",%s", p);
-								}
-							fprintf(stderr,"You have already submitted the word: \'%s\'' Try again!\n", p);
-						}
-
+		    else if (fileLineCounter >= 2) {
 			
-				 	}else{
-						if(begin == 0){								
-							fprintf(outputFP, "%s", p );
-							begin++;
-						}else{
-							fprintf(outputFP, ",%s", p );
-						}
+			    for (char* ptr = strtok(test_line,","); ptr != NULL; ptr = strtok(NULL, ",")) {
+				    checkEnglish = lookup(englishDictionary, BIG_HASH_SIZE, convert_to_upper(&ptr));						
+				
+				    if (checkEnglish != NULL) {
+					    checkSubmitted = lookup (guessedWords, SMALL_HASH_SIZE, ptr);
+					
+					    if (checkSubmitted == NULL) {
+						
+						    if(testWordChecker(testBoard, ptr)) {
+							    insert (guessedWords, SMALL_HASH_SIZE, ptr);
+							    incrementTotalScore(&testPoints, p);
+							    fprintf(stdout,"Correct! You total score is now: %d \n",test_points );	
+						    }
+						    else {
+							    	if(begin == 0) {								
+								    	fprintf(outputFP, "%s", ptr);
+									    begin++;
+								    }
+								    else {
+									    fprintf(outputFP, ",%s", ptr);
+								    }		
+							    fprintf(stderr,"The submitted word: \'%s\'' does not abide game rules. Try again!\n", ptr);								
+						    }
+					    }
 
-				 		fprintf(stderr,"Incorrect word: \'%s\'' is not in the English Dictionary. Try again!\n", p);
+					    else {
+							if(begin == 0){								
+								fprintf(outputFP, "%s", ptr);
+								begin++;
+							}
+							else{
+								fprintf(outputFP, ",%s", ptr);
+							}
+							fprintf(stderr,"You have already submitted the word: \'%s\'' Try again!\n", ptr);
+						}	
+				 	}
+				 	else {
+						if(begin == 0) {								
+							fprintf(outputFP, "%s", ptr);
+							begin++;
+						}
+						else {
+							fprintf(outputFP, ",%s", ptr);
+						}
+				 		fprintf(stderr,"Incorrect word: \'%s\'' is not in the English Dictionary. Try again!\n", ptr);
 					}
-				}
-			}
+			    }
+		    }
 			fileLineCounter++;
 		}
 
@@ -289,8 +294,8 @@ int main (int argc, char ** argv) {
 		fclose(outputFP);
 	}
 
-	free_dictionary(english_dictionary, BIG_HASH_SIZE);
-	free_dictionary(guessed_words, SMALL_HASH_SIZE);
+	freeDictionary(englishDictionary, BIG_HASH_SIZE);
+	freeDictionary(guessedWords, SMALL_HASH_SIZE);
 
 	return 0;
 }
