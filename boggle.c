@@ -21,7 +21,7 @@ void FreeAndResetBoard(struct rolledDice** gameBoard,
 	for (int i = 0; i < 4; i++) {
 		free(gameBoard[i]);
 	}
-	rollDice(gameBoard, inputArrayOfDice);
+	RollDice(gameBoard, inputArrayOfDice);
 }
 
 
