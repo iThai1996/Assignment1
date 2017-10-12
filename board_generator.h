@@ -8,28 +8,26 @@
 
 
 // The pre-set dice which keep their values between games.
-typedef struct preset_dice {
+typedef struct presetDice {
 	char *configurations;
 	int position;
 } PresetDice;
 
 // The rolled dice which do not keep their values between games.
-typedef struct rolled_dice {
+typedef struct rolledDice {
 	char character;
 	int position;
 } RolledDice;
 
 
-void initialize_preset_dice(struct preset_dice* input_array_of_dice);
-void roll_but_not_shuffle_dice(struct rolled_dice* game_dice,
-		struct preset_dice* input_array_of_dice);
+void InitializePresetDice(PresetDice *inputArrayOfDice);
+void RollButNotShuffleDice(RolledDice* gameDice, PresetDice* inputArrayOfDice);
 
-void shuffle_rolled_dice_positions(struct rolled_dice* game_dice);
-void print_game_board(struct rolled_dice** game_board);
-void roll_dice(struct rolled_dice** game_board,
-		struct preset_dice* input_array_of_dice);
+void ShuffleRolledDicePositions(RolledDice* gameDice);
+void PrintGameBoard(RolledDice** gameBoard);
+void RollDice(RolledDice** gameBoard, PresetDice* inputArrayOfDice);
 
-void convert_to_board(char *letters, char ***board);
-void print_hc_board(char boggle[][4]);
+void ConvertToBoard(char *letters, char ***board);
+void PrintHcBoard(char boggle[][4]);
 
 #endif
