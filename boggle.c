@@ -98,7 +98,7 @@ int main (int argc, char ** argv) {
 	}
 	fclose(inputFP);
 
-
+    //user playing in normal mode
 	if (argc == 1) {
 		fprintf(stdout, "playing in normal mode\n\n");
 
@@ -163,10 +163,11 @@ int main (int argc, char ** argv) {
 							fprintf(stderr, "The submitted word: \'%s\'' does not abide game rules. Try again!\n",
 									originalInputWord);
 						}
-//						else {
-//							fprintf(stderr, "The submitted word: \'%s\'' must be at least 3 letters long. Try again!\n",
-//									originalInputWord);
-//						}
+						//commented out due to conflicting nature of code block
+						//else {
+							//fprintf(stderr, "The submitted word: \'%s\'' must be at least 3 letters long. Try again!\n",
+									//originalInputWord);
+						//}
 					} else {
 						fprintf(stderr, "You have already submitted the word: \'%s\'' Try again!\n", originalInputWord);
 					}
@@ -185,7 +186,7 @@ int main (int argc, char ** argv) {
 			}
 			free_all(head);
 		}
-
+		//user is in test mode
 		}else if (argc == 2) {
 
 			fileName = argv[1];
@@ -213,7 +214,7 @@ int main (int argc, char ** argv) {
 				testLine[strcspn(testLine, "\r\n")] = '\0';  //trim new line characters
 				if (fileLineCounter == 1) {
 					ConvertToBoard(testLine, &testBoard);
-					// this can be removed, its just for testing purposes
+					// this can be removed, it is just for testing purposes
 					for (i = 0; i < 4; i++) {
 
 						for (j = 0; j < 4; j++) {
