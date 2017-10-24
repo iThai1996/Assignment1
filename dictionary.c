@@ -1,3 +1,10 @@
+/**
+* @file dictionary.c
+* @editor Maxwell Christie
+* @date October 24
+* @brief File containing functions definitions for dictionary
+**/
+
 #include <stdio.h>
 #include <string.h>
 #include "dictionary.h"
@@ -6,7 +13,7 @@
  * Form hash value for string s
  * This produces a starting value in the dictionary array
  */
-unsigned Hash(const char* s)
+unsigned hash(const char* s)
 {
 	unsigned hashVal;
 
@@ -17,7 +24,7 @@ unsigned Hash(const char* s)
 	return hashVal;
 }
 
-DNode* LookUp(DNode** dictionary, int hashSize, const char* key)
+DNode* lookUp(DNode** dictionary, int hashSize, const char* key)
 {
 	DNode* np;
 	unsigned int hashVal = Hash(key);
@@ -31,7 +38,7 @@ DNode* LookUp(DNode** dictionary, int hashSize, const char* key)
 	return NULL; //not found
 }
 
-DNode* Insert(DNode** dictionary, int hashSize, const char* key)
+DNode* insert(DNode** dictionary, int hashSize, const char* key)
 {
     DNode* np;
 	unsigned int hashVal;
@@ -52,7 +59,7 @@ DNode* Insert(DNode** dictionary, int hashSize, const char* key)
 	return np;
 }
 
-void FreeDictionary(DNode** dictionary, int hashSize)
+void freeDictionary(DNode** dictionary, int hashSize)
 {
 	int i;
 
@@ -69,9 +76,11 @@ void FreeDictionary(DNode** dictionary, int hashSize)
 			dictionary[i] = NULL;  //BUG fix
 		}
 	}
+
+    return;
 }
 
-char* CopyStr(const char* s)
+char* copyStr(const char* s)
 {
 	char* p;
 	int len = strlen(s);
