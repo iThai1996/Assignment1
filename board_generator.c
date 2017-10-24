@@ -1,6 +1,7 @@
 #include "board_generator.h"
 
-void InitializePresetDice(PresetDice *inputArrayOfDice) {
+void InitializePresetDice(PresetDice* inputArrayOfDice)
+{
     int i;
 
     for (i = 0; i < 16; i++) {
@@ -26,7 +27,8 @@ void InitializePresetDice(PresetDice *inputArrayOfDice) {
     inputArrayOfDice[15].configurations = "PACEMD";
 }
 
-void RollButNotShuffleDice(RolledDice* gameDice, PresetDice* inputArrayOfDice) {
+void RollButNotShuffleDice(RolledDice* gameDice, PresetDice* inputArrayOfDice)
+{
     int i;
     int randNum;
 
@@ -34,12 +36,13 @@ void RollButNotShuffleDice(RolledDice* gameDice, PresetDice* inputArrayOfDice) {
 
     //for each of the 16 dice one face is chosen at random and is stored in the game dice
     for (i = 0; i < 16; i++) {
-        randNum = rand()%6;
+        randNum = rand() % 6;
         gameDice[i].character = inputArrayOfDice[i].configurations[randNum];
     }
 }
 
-void ShuffleRolledDicePositions(RolledDice *gameDice) {
+void ShuffleRolledDicePositions(RolledDice* gameDice)
+{
     int i;
 
     RolledDice newGameDice[16];
@@ -49,7 +52,8 @@ void ShuffleRolledDicePositions(RolledDice *gameDice) {
         srand(time(NULL));
 
         //generate random values for the game dice
-        while (gameDice[randNum].position == -1) {
+        while (gameDice[randNum].position == -1)
+        {
             randNum = (int) (rand()%16);
         }
         newGameDice[i] = gameDice[randNum];
@@ -63,7 +67,8 @@ void ShuffleRolledDicePositions(RolledDice *gameDice) {
 }
 
 
-void RollDice(RolledDice **gameBoard, PresetDice *inputArrayOfDice) {
+void RollDice(RolledDice** gameBoard, PresetDice* inputArrayOfDice)
+{
     int i;
     int j;
 
@@ -87,7 +92,8 @@ void RollDice(RolledDice **gameBoard, PresetDice *inputArrayOfDice) {
 }
 
 //prints the game board as a 4x4 visualization of the 2d array
-void PrintGameBoard(RolledDice** gameBoard) {
+void PrintGameBoard(RolledDice** gameBoard)
+{
     int i;
     int j;
 
@@ -103,7 +109,8 @@ void PrintGameBoard(RolledDice** gameBoard) {
 }
 
 /*same as above?*/
-void PrintHcBoard(char boggle[][4]) {
+void PrintHcBoard(char boggle[][4])
+{
     int i;
     int j;
 
@@ -119,7 +126,8 @@ void PrintHcBoard(char boggle[][4]) {
     }
 }
 
-void ConvertToBoard(char *letters, char ***board) {
+void ConvertToBoard(char* letters, char*** board)
+{
 
     char *word;
     int i;
