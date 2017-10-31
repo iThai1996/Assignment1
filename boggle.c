@@ -12,17 +12,17 @@
  * set up board,
  * set up dictionary,
  */
-void IncrementTotalScore(int *userScore, char *word);
+void incrementTotalScore(int *userScore, char *word);
 
-void FreeAndResetBoard(struct rolledDice** gameBoard, struct presetDice* inputArrayOfDice)
+void freeAndResetBoard(struct rolledDice** gameBoard, struct presetDice* inputArrayOfDice)
 {
 	for (int i = 0; i < 4; i++) {
 		free(gameBoard[i]);
 	}
-	RollDice(gameBoard, inputArrayOfDice);
+	rollDice(gameBoard, inputArrayOfDice);
 }
 
-char *ConvertToUpper(char **upper)
+char *convertToUpper(char **upper)
 {
 	char *upperDeref = *upper;
 
@@ -32,7 +32,7 @@ char *ConvertToUpper(char **upper)
 	return upperDeref;
 }
 
-char *ConvertToUpper2(char (*upper)[])
+char *convertToUpper2(char (*upper)[])
 {
 	char *upperDeref = *upper;
 
@@ -42,7 +42,7 @@ char *ConvertToUpper2(char (*upper)[])
 	return upperDeref;
 }
 
-void IncrementTotalScore(int *userScore, char *word)
+void incrementTotalScore(int *userScore, char *word)
 {
 	int wordLen = strlen(word);
 	fprintf(stdout, "word_len: %d\n",wordLen );
@@ -81,8 +81,8 @@ int main (int argc, char ** argv) {
 	User *head = NULL;
 	head = (User *) malloc(sizeof(User));
 
-	PresetDice globalDice[16];
-	RolledDice *gameBoard[4];
+	presetDice globalDice[16];
+	rolledDice *gameBoard[4];
 
 	FILE *outputFP;
 	char readLine[MAX_LINE];
@@ -94,7 +94,7 @@ int main (int argc, char ** argv) {
 
 	while (fgets(line, MAX_LINE, inputFP) != NULL) {
 		line[strcspn(line, "\r\n")] = '\0';  //trim new line characters
-		insert(englishDictionary, BIG_HASH_SIZE, ConvertToUpper2(&line));
+		insert(englishDictionary, BIG_HASH_SIZE, convertToUpper2(&line));
 	}
 	fclose(inputFP);
 
@@ -104,43 +104,43 @@ int main (int argc, char ** argv) {
 
 		system("clear");
 
-		InitializePresetDice(globalDice);
+		initializePresetDice(globalDice);
 
-		RollDice(gameBoard, globalDice);
+		rollDice(gameBoard, globalDice);
 
 		while (turnCount >= 0) {
 			strcpy(originalInputWord, inputWord);
 
-			ConvertToUpper2(&inputWord);
+			convertToUpper2(&inputWord);
 
 			User *thisUser;
 			char inputName[100];
 
 			if (strcmp(originalInputWord, "q") == 0) {
 				// "q" is the input, print scoreboard and exit game
-				PrintScoreboard(head);
+				printScoreboard(head);
 				break;
 			}
 			// "n" is the input, adds user to/changes user in linked list and
 			// resets game
 			if (strcmp(originalInputWord, "n") == 0) {
 
-				PrintScoreboard(head);
+				printScoreboard(head);
 				fprintf(stdout, "Your current score: %d \n", currentScore);
 				fprintf(stdout, "What is your name? \n");
 				scanf("%s", inputName);
 
-				if (UserIsInList(head, inputName) == 0) {
-					AddNode(head, inputName, currentScore);
+				if (userIsInList(head, inputName) == 0) {
+					addNode(head, inputName, currentScore);
 				} else {
-					UpdateNodeWithName(head, inputName, currentScore);
+					updateNodeWithName(head, inputName, currentScore);
 				}
 
 				currentScore = 0;
 
 				strcpy(inputWord, "");
 
-				FreeAndResetBoard(gameBoard, globalDice);
+				freeAndResetBoard(gameBoard, globalDice);
 				turnCount = 0;
 				system("clear");
 				continue;
@@ -213,7 +213,7 @@ int main (int argc, char ** argv) {
 
 				testLine[strcspn(testLine, "\r\n")] = '\0';  //trim new line characters
 				if (fileLineCounter == 1) {
-					ConvertToBoard(testLine, &testBoard);
+					convertToBoard(testLine, &testBoard);
 					// this can be removed, it is just for testing purposes
 					for (i = 0; i < 4; i++) {
 
@@ -230,7 +230,7 @@ int main (int argc, char ** argv) {
 				else if (fileLineCounter >= 2) {
 
 					for (char *ptr = strtok(test_line, ","); ptr != NULL; ptr = strtok(NULL, ",")) {
-						checkEnglish = lookup(englishDictionary, BIG_HASH_SIZE, ConvertToUpper(&ptr));
+						checkEnglish = lookup(englishDictionary, BIG_HASH_SIZE, convertToUpper(&ptr));
 
 						if (checkEnglish != NULL) {
 							checkSubmitted = lookup(guessedWords, SMALL_HASH_SIZE, ptr);
@@ -239,7 +239,7 @@ int main (int argc, char ** argv) {
 
 								if (TestWordChecker(testBoard, ptr)) {
 									insert(guessedWords, SMALL_HASH_SIZE, ptr);
-									IncrementTotalScore(&testPoints, p);
+									incrementTotalScore(&testPoints, p);
 									fprintf(stdout, "Correct! You total score is now: %d \n", testPoints);
 								} else {
 									if (begin == 0) {
