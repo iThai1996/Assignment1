@@ -9,7 +9,6 @@ typedef struct user{
 	int totalGames;
 	int totalScore;
 	struct user *next;
-
 } User;
 
 /*
@@ -53,13 +52,13 @@ int GetLength(User* head);
  * Returns NULL if called with an empty head, although such a case is not used
  * in the main function AddNode.
  */
-User* GetLastNode(User *head);
+User* GetLastNode(User* head);
 
 /*
  * Given a pointer to the head of a linked list, prints the scoreboard.
  * @param head The head of the linked list
  */
-void PrintScoreboard(User *head);
+void PrintScoreboard(User* head);
 
 /*
  * Frees every element of the linked list
@@ -73,7 +72,7 @@ void FreeAll(User* head);
  * @param name The name of the person to enter
  * @param maxScore Maximum score a user is allowed to have.
  */
-void AddNode(User *head, char* name, int maxScore);
+void AddNode(User* head, char* name, int maxScore);
 
 /*
  * Finds whether or not a an existing user is already in the list. Of they are,
