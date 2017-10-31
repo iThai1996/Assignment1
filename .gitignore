@@ -1,15 +1,23 @@
 
+<<<<<<< HEAD
 \.idea/workspace\.xml
 
 cmake-build-debug/CMakeFiles/clion-log\.txt
 <<<<<<< HEAD
 =======
+=======
+\.DS_Store
+>>>>>>> mark
 
 \.idea/Assignment1\.iml
 
 \.idea/misc\.xml
 
+<<<<<<< HEAD
 \.idea/modules\.xml
 
 \.idea/vcs\.xml
 >>>>>>> josh
+=======
+cmake-build-debug/CMakeFiles/clion-log\.txt
+>>>>>>> mark
