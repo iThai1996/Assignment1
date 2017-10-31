@@ -3,7 +3,7 @@
 #include <string.h>
 #include "scoreboard.h"
 
-User* FindUserWithName(User* head, char* nameToFind)
+User* findUserWithName(User* head, char* nameToFind)
 {
     if (head == NULL) {
         return NULL;
@@ -21,7 +21,7 @@ User* FindUserWithName(User* head, char* nameToFind)
     return NULL;
 }
 
-User* GetUserAtIndex(User* head, int index)
+User* getUserAtIndex(User* head, int index)
 {
     int count = 0;
 
@@ -42,7 +42,7 @@ User* GetUserAtIndex(User* head, int index)
     return NULL;
 }
 
-void FreeAll(User* head)
+void freeAll(User* head)
 {
     if (head->next == NULL) {
         free(head);
@@ -60,7 +60,7 @@ void FreeAll(User* head)
     return;
 }
 
-int GetIndexOfUserWithName(User* head, char* nameToFind)
+int getIndexOfUserWithName(User* head, char* nameToFind)
 {
     int count = 0;
     User* current = head;
@@ -80,7 +80,7 @@ int GetIndexOfUserWithName(User* head, char* nameToFind)
     return -1;
 }
 
-int UserIsInList(User* head, char* nameToFind)
+int userIsInList(User* head, char* nameToFind)
 {
     User* current = head;
 
@@ -94,7 +94,7 @@ int UserIsInList(User* head, char* nameToFind)
     return 0;
 }
 
-int GetLength(User* head)
+int getLength(User* head)
 {
     int count = 0;
 
@@ -115,7 +115,7 @@ int GetLength(User* head)
     return 0;
 }
 
-User* GetLastNode(User* head)
+User* getLastNode(User* head)
 {
     if (head == NULL) {
         return head;
@@ -133,7 +133,7 @@ User* GetLastNode(User* head)
     return NULL;
 }
 
-void PrintScoreboard(User* head)
+void printScoreboard(User* head)
 {
         fprintf(stdout, "\n");
         fprintf(stdout, "---- SCORE BOARD ---- \n");
@@ -159,7 +159,7 @@ void PrintScoreboard(User* head)
     return;
 }
 
-void AddNode(User* head, char* name, int maxScore)
+void addNode(User* head, char* name, int maxScore)
 {
     User* userPtr;
 
@@ -178,17 +178,17 @@ void AddNode(User* head, char* name, int maxScore)
     }
 
     else {
-        GetLastNode(head)->next = userPtr;
+        getLastNode(head)->next = userPtr;
     }
 
     return;
 }
 
-void UpdateNodeWithName(User* head, char* name, int currentScore)
+void updateNodeWithName(User* head, char* name, int currentScore)
 {
-    if (UserIsInList(head, name) == 1) {
+    if (userIsInList(head, name) == 1) {
 
-        User *userPtr = FindUserWithName(head, name);
+        User *userPtr = findUserWithName(head, name);
 
         if (currentScore > (userPtr->maxScore)) {
             userPtr->maxScore = currentScore;
