@@ -3,7 +3,7 @@
 #include "word_checker.h"
 #include <ctype.h>
 
-char getLetter(int i, int j, struct rolledDice **gameBoard)
+char GetLetter(int i, int j, struct rolledDice **gameBoard)
 {
     //Returns the letter in the gameboard
     return gameBoard[i][j].character;
@@ -11,9 +11,8 @@ char getLetter(int i, int j, struct rolledDice **gameBoard)
 }
 
 //This function looks a sournding correct letter
-int abidesRules(int i, int j, char *word, struct rolledDice** gameBoard, int subLen, int **visited)
+int AbidesRules(int i, int j, char *word, struct rolledDice** gameBoard, int subLen, int **visited)
 {
-    
     int adjCell;
     char currentLetter = word[subLen];
     int ans = (subLen == (strlen(word)-1));
@@ -45,7 +44,7 @@ int abidesRules(int i, int j, char *word, struct rolledDice** gameBoard, int sub
         newY = j + allyVariable[adjCell];
         
         //if a correct letter is found move on, if a letter cant move on then go back
-        if((newX >= 0) && (newX < 4) && (newY >=0) && (newY < 4) && toupper(findLetter) == getLetter(newX, newY, gameBoard) && !visited[newX][newY]){
+        if((newX >= 0) && (newX < 4) && (newY >=0) && (newY < 4) && toupper(findLetter) == GetLetter(newX, newY, gameBoard) && !visited[newX][newY]){
             
             //mark variable as checked
             visited[newX][newY] = 1;
@@ -53,7 +52,7 @@ int abidesRules(int i, int j, char *word, struct rolledDice** gameBoard, int sub
             ++subLen;
             
             //Move onto next correct letter
-            result = abidesRules(newX, newY, word, gameBoard, subLen, visited);
+            result = AbidesRules(newX, newY, word, gameBoard, subLen, visited);
             
             if(result){
                 
@@ -75,7 +74,7 @@ int abidesRules(int i, int j, char *word, struct rolledDice** gameBoard, int sub
 }
 
 
-int wordChecker(struct rolledDice **gameBoard, char *word)
+int WordChecker(struct rolledDice **gameBoard, char *word)
 {
     
     int row, letter, col, m, n;
@@ -109,7 +108,7 @@ int wordChecker(struct rolledDice **gameBoard, char *word)
         
         for (col = 0; col < 4; col++) {
             
-            if(abidesRules(row, col, word, gameBoard, 0, visited)){
+            if(AbidesRules(row, col, word, gameBoard, 0, visited)){
                 
                 //free and return true
                 free(visited[0]);
