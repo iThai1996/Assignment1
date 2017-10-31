@@ -1,6 +1,6 @@
 #include "board_generator.h"
 
-void InitializePresetDice(PresetDice* inputArrayOfDice)
+void initializePresetDice(PresetDice *inputArrayOfDice)
 {
     int i;
 
@@ -27,7 +27,7 @@ void InitializePresetDice(PresetDice* inputArrayOfDice)
     inputArrayOfDice[15].configurations = "PACEMD";
 }
 
-void RollButNotShuffleDice(RolledDice* gameDice, PresetDice* inputArrayOfDice)
+void rollButNotShuffleDice(RolledDice *gameDice, PresetDice *inputArrayOfDice)
 {
     int i;
     int randNum;
@@ -41,7 +41,7 @@ void RollButNotShuffleDice(RolledDice* gameDice, PresetDice* inputArrayOfDice)
     }
 }
 
-void ShuffleRolledDicePositions(RolledDice* gameDice)
+void shuffleRolledDicePositions(RolledDice *gameDice)
 {
     int i;
 
@@ -67,7 +67,7 @@ void ShuffleRolledDicePositions(RolledDice* gameDice)
 }
 
 
-void RollDice(RolledDice** gameBoard, PresetDice* inputArrayOfDice)
+void rollDice(RolledDice **gameBoard, PresetDice *inputArrayOfDice)
 {
     int i;
     int j;
@@ -92,7 +92,7 @@ void RollDice(RolledDice** gameBoard, PresetDice* inputArrayOfDice)
 }
 
 //prints the game board as a 4x4 visualization of the 2d array
-void PrintGameBoard(RolledDice** gameBoard)
+void printGameBoard(RolledDice **gameBoard)
 {
     int i;
     int j;
@@ -108,8 +108,8 @@ void PrintGameBoard(RolledDice** gameBoard)
     }
 }
 
-/*same as above?*/
-void PrintHcBoard(char boggle[][4])
+/*same as above*/
+void printHcBoard(char **boggle)
 {
     int i;
     int j;
@@ -126,7 +126,7 @@ void PrintHcBoard(char boggle[][4])
     }
 }
 
-void ConvertToBoard(char* letters, char*** board)
+void convertToBoard(char *letters, char ***board)
 {
 
     char *word;

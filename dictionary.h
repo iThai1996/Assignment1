@@ -18,7 +18,7 @@
  * @var next pointer to next node
  */
 typedef struct dNode {
-	char* key;
+    char* key;
     struct dNode *next;
 } DNode;
 

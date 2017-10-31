@@ -4,11 +4,11 @@
 #include <stdlib.h>
 
 typedef struct user{
-	char name[100];
-	int maxScore;
-	int totalGames;
-	int totalScore;
-	struct user *next;
+    char name[100];
+    int maxScore;
+    int totalGames;
+    int totalScore;
+    struct user *next;
 } User;
 
 /*
