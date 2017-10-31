@@ -128,8 +128,6 @@ void printHcBoard(char **boggle)
 
 void convertToBoard(char *letters, char ***board)
 {
-
-    char *word;
     int i;
     int j;
 

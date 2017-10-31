@@ -61,7 +61,7 @@ void incrementTotalScore(int *userScore, char *word)
 
 
 int main (int argc, char ** argv) {
-    int i, points = 0, testPoints = 0, invalidSize = 0;
+    int testPoints = 0;
     char inputWord[100];
     char originalInputWord[100];
 
@@ -85,7 +85,7 @@ int main (int argc, char ** argv) {
     RolledDice *gameBoard[4];
 
     FILE *outputFP;
-    char readLine[MAX_LINE];
+//    char readLine[MAX_LINE];
 
     if (!(inputFP = fopen(dictName, "r"))) {
         fprintf(stderr, "Could not open file \"%s\" for reading dictionary words\n", dictName);
@@ -113,7 +113,7 @@ int main (int argc, char ** argv) {
 
             convertToUpper2(&inputWord);
 
-            User *thisUser;
+//            User *thisUser;
             char inputName[100];
 
             if (strcmp(originalInputWord, "q") == 0) {
@@ -148,14 +148,14 @@ int main (int argc, char ** argv) {
             //ALEX'S CODE ABOVE THIS
             //LOGAN'S CODE BELOW THIS
             printGameBoard(gameBoard);
-            checkEnglish = lookup(englishDictionary, BIG_HASH_SIZE, inputWord);
+            checkEnglish = lookUp(englishDictionary, BIG_HASH_SIZE, inputWord);
 
             if (checkEnglish != NULL) {
-                checkSubmitted = lookup(guessedWords, SMALL_HASH_SIZE, inputWord);
+                checkSubmitted = lookUp(guessedWords, SMALL_HASH_SIZE, inputWord);
 
                 if (checkSubmitted == NULL) {
                     if (strlen(inputWord) > 2) {
-                        if (wordChecker(gameBoard, inputBord)) {
+                        if (wordChecker(gameBoard, inputWord)) {
                             insert(guessedWords, SMALL_HASH_SIZE, inputWord);
                             incrementTotalScore(&currentScore, inputWord);
                             fprintf(stdout, "Correct! You current score is now: %d \n", currentScore);
@@ -184,7 +184,7 @@ int main (int argc, char ** argv) {
             for (int i = 0; i < 4; i++) {
                 free(gameBoard[i]);
             }
-            free_all(head);
+            freeAll(head);
         }
         //user is in test mode
     }else if (argc == 2) {
@@ -193,11 +193,9 @@ int main (int argc, char ** argv) {
         fprintf(stdout, "playing in test mode with file: %s\n", fileName);
         FILE *testFileFP;
         char testLine[MAX_LINE];
-        char *testWords;
         char **testBoard;
         int fileLineCounter = 1;
         int i, j;
-        DNode *testResult;
         int begin = 0;
 
         // (1) read first line which is the board
@@ -229,17 +227,17 @@ int main (int argc, char ** argv) {
             }
             else if (fileLineCounter >= 2) {
 
-                for (char *ptr = strtok(test_line, ","); ptr != NULL; ptr = strtok(NULL, ",")) {
-                    checkEnglish = lookup(englishDictionary, BIG_HASH_SIZE, convertToUpper(&ptr));
+                for (char *ptr = strtok(testLine, ","); ptr != NULL; ptr = strtok(NULL, ",")) {
+                    checkEnglish = lookUp(englishDictionary, BIG_HASH_SIZE, convertToUpper(&ptr));
 
                     if (checkEnglish != NULL) {
-                        checkSubmitted = lookup(guessedWords, SMALL_HASH_SIZE, ptr);
+                        checkSubmitted = lookUp(guessedWords, SMALL_HASH_SIZE, ptr);
 
                         if (checkSubmitted == NULL) {
 
-                            if (TestWordChecker(testBoard, ptr)) {
+                            if (wordChecker(gameBoard, ptr)) {
                                 insert(guessedWords, SMALL_HASH_SIZE, ptr);
-                                incrementTotalScore(&testPoints, p);
+                                incrementTotalScore(&testPoints, ptr);
                                 fprintf(stdout, "Correct! You total score is now: %d \n", testPoints);
                             } else {
                                 if (begin == 0) {

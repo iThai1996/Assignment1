@@ -8,7 +8,7 @@
  *@param    The gameboard
  *@param   The word the user wants to verify
  **/
-int WordChecker(struct rolledDice **gameBoard, char *word);
+int wordChecker(RolledDice **gameBoard, char* word);
 
 /**Goes through letters on the board to verify a word, building the word on the board one position at a time
  *@pre      This function is called through wordChecker and needs it to function.
@@ -20,7 +20,7 @@ int WordChecker(struct rolledDice **gameBoard, char *word);
  *@param    The board, an int to track how much of the word is left,
  *@param    Array of already used letters.
  **/
-int AbidesRules(int i, int j, char *word, struct rolledDice** gameBoard, int subLen, int **visited);
+int abidesRules(int i, int j, char* word, RolledDice** gameBoard, int subLen, int** visited);
 
 /**Function to get a letter on the boggle board
  *@pre      The coorinate of i and j must be a real value that exsists on the board.
@@ -29,4 +29,4 @@ int AbidesRules(int i, int j, char *word, struct rolledDice** gameBoard, int sub
  *@param    j is the y coordinate,
  *@param    **rolled reps the boggleBoard
  **/
-char GetLetter(int i, int j, struct rolledDice **gameBoard);
+char getLetter(int i, int j, RolledDice** gameBoard);

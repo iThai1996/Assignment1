@@ -161,22 +161,20 @@ void printScoreboard(User* head)
 
 void addNode(User* head, char* name, int maxScore)
 {
-    User* userPtr;
+    User* userPtr = malloc(sizeof(User));
 
     if (head != NULL) {
-         userPtr = malloc(sizeof(User));
+        userPtr = malloc(sizeof(User));
+
+        strcpy(userPtr->name, name);
+        userPtr->maxScore = maxScore;
+        userPtr->totalGames = 1;
+        userPtr->totalScore = maxScore;
+        userPtr->next = NULL;
     }
-
-    strcpy(userPtr->name, name);
-    userPtr->maxScore = maxScore;
-    userPtr->totalGames = 1;
-    userPtr->totalScore = maxScore;
-    userPtr->next = NULL;
-
-    if (head == NULL) {
+    else if (head == NULL) {
         head = userPtr;
     }
-
     else {
         getLastNode(head)->next = userPtr;
     }
