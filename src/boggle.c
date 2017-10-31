@@ -1,10 +1,10 @@
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
-#include "dictionary.h"
-#include "board_generator.h"
-#include "word_checker.h"
-#include "scoreboard.h"
+#include "../include/dictionary.h"
+#include "../include/board_generator.h"
+#include "../include/word_checker.h"
+#include "../include/scoreboard.h"
 
 #define MAX_LINE 100
 
@@ -14,7 +14,7 @@
  */
 void incrementTotalScore(int *userScore, char *word);
 
-void freeAndResetBoard(struct rolledDice** gameBoard, struct presetDice* inputArrayOfDice)
+void freeAndResetBoard(RolledDice** gameBoard, PresetDice* inputArrayOfDice)
 {
     for (int i = 0; i < 4; i++) {
         free(gameBoard[i]);
@@ -27,7 +27,7 @@ char *convertToUpper(char **upper)
     char *upperDeref = *upper;
 
     for(int i = 0; upperDeref[i]; i++){
-        upperDeref[i] = toUpper(upperDeref[i]);
+        upperDeref[i] = toupper(upperDeref[i]);
     }
     return upperDeref;
 }
@@ -37,7 +37,7 @@ char *convertToUpper2(char (*upper)[])
     char *upperDeref = *upper;
 
     for(int i = 0; upperDeref[i]; i++){
-        upperDeref[i] = toUpper(upperDeref[i]);
+        upperDeref[i] = toupper(upperDeref[i]);
     }
     return upperDeref;
 }
@@ -81,8 +81,8 @@ int main (int argc, char ** argv) {
     User *head = NULL;
     head = (User *) malloc(sizeof(User));
 
-    presetDice globalDice[16];
-    rolledDice *gameBoard[4];
+    PresetDice globalDice[16];
+    RolledDice *gameBoard[4];
 
     FILE *outputFP;
     char readLine[MAX_LINE];

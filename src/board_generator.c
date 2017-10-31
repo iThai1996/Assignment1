@@ -1,4 +1,4 @@
-#include "board_generator.h"
+#include "../include/board_generator.h"
 
 void initializePresetDice(PresetDice *inputArrayOfDice)
 {
@@ -80,8 +80,8 @@ void rollDice(RolledDice **gameBoard, PresetDice *inputArrayOfDice)
     //temp array for the dice before getting stored in the game board
     RolledDice adjustedDiceArray[16];
 
-    RollButNotShuffleDice(adjustedDiceArray, inputArrayOfDice);
-    ShuffleRolledDicePositions(adjustedDiceArray);
+    rollButNotShuffleDice(adjustedDiceArray, inputArrayOfDice);
+    shuffleRolledDicePositions(adjustedDiceArray);
 
     //converts the array of rolled and shuffled dice into a 2D array for the game board
     for (i = 0; i < 4; i++) {

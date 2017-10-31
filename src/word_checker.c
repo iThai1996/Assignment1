@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <string.h>
-#include "word_checker.h"
+#include "../include/word_checker.h"
 #include <ctype.h>
 
 char GetLetter(int i, int j, struct rolledDice **gameBoard)

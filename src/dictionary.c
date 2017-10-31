@@ -7,7 +7,7 @@
 
 #include <stdio.h>
 #include <string.h>
-#include "dictionary.h"
+#include "../include/dictionary.h"
 
 /*
  * Form hash value for string s

@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include "scoreboard.h"
+#include "../include/scoreboard.h"
 
 User* findUserWithName(User* head, char* nameToFind)
 {
