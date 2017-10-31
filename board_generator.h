@@ -18,16 +18,16 @@
  *Struct for the value of preset dice - maintained between games
  **/
 typedef struct presetDice {
-	char* configurations; ///< pointer to the die configurations
-	int position; ///< int position of the die
+    char* configurations; ///< pointer to the die configurations
+    int position; ///< int position of the die
 } PresetDice;
 
 /**
  *Struct for the value of the rolled dice - different between games
  **/
 typedef struct rolledDice {
-	char character; ///< character value of the rolled die
-	int position; ///< int position of the die
+    char character; ///< character value of the rolled die
+    int position; ///< int position of the die
 } RolledDice;
 
 
