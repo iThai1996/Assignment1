@@ -27,10 +27,10 @@ unsigned hash(const char* s)
 DNode* lookUp(DNode** dictionary, int hashSize, const char* key)
 {
 	DNode* np;
-	unsigned int hashVal = Hash(key);
+	unsigned int hashVal = hash(key);
 
 	for (np = dictionary[hashVal % hashSize]; np != NULL; np = np->next) {
-		if (strCmp(key, np->key) == 0) {
+		if (strcmp(key, np->key) == 0) {
 			return np;
 		}
 	}
@@ -43,14 +43,14 @@ DNode* insert(DNode** dictionary, int hashSize, const char* key)
     DNode* np;
 	unsigned int hashVal;
 
-    if ((np = LookUp(dictionary, hashSize, key)) == NULL ) {
+    if ((np = lookUp(dictionary, hashSize, key)) == NULL ) {
 		np = (DNode *)malloc(sizeof (*np));
 
 		if (np == NULL || (np->key = copyStr (key)) == NULL) {
 			return NULL;
 		}
 
-		hashVal = Hash(key) % hashSize;
+		hashVal = hash(key) % hashSize;
 
 		np->next = dictionary[hashVal];
 		dictionary[hashVal] = np;
