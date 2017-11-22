@@ -1,4 +1,4 @@
-#include "../include/board_generator.h"
+#include "../include/boardGenerator.h"
 
 void initializePresetDice(PresetDice *inputArrayOfDice)
 {

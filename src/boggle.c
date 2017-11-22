@@ -2,8 +2,8 @@
 #include <string.h>
 #include <ctype.h>
 #include "../include/dictionary.h"
-#include "../include/board_generator.h"
-#include "../include/word_checker.h"
+#include "../include/boardGenerator.h"
+#include "../include/wordChecker.h"
 #include "../include/scoreboard.h"
 
 #define MAX_LINE 100
@@ -14,38 +14,37 @@
  */
 void incrementTotalScore(int *userScore, char *word);
 
-void freeAndResetBoard(RolledDice** gameBoard, PresetDice* inputArrayOfDice)
-{
+void freeAndResetBoard(struct rolledDice** gameBoard,
+        struct presetDice* inputArrayOfDice) {
+
     for (int i = 0; i < 4; i++) {
         free(gameBoard[i]);
     }
     rollDice(gameBoard, inputArrayOfDice);
 }
 
-char *convertToUpper(char **upper)
-{
+
+char *convertToUpper(char **upper){
     char *upperDeref = *upper;
 
     for(int i = 0; upperDeref[i]; i++){
-        upperDeref[i] = toupper(upperDeref[i]);
+      upperDeref[i] = toupper(upperDeref[i]);
     }
     return upperDeref;
 }
 
-char *convertToUpper2(char (*upper)[])
-{
+char *convertToUpper2(char (*upper)[]){
     char *upperDeref = *upper;
 
     for(int i = 0; upperDeref[i]; i++){
-        upperDeref[i] = toupper(upperDeref[i]);
+      upperDeref[i] = toupper(upperDeref[i]);
     }
     return upperDeref;
 }
 
-void incrementTotalScore(int *userScore, char *word)
-{
+void incrementTotalScore(int *userScore, char *word){
     int wordLen = strlen(word);
-    fprintf(stdout, "word_len: %d\n",wordLen );
+    fprintf(stdout, "wordLen: %d\n",wordLen );
     if(wordLen == 3 || wordLen == 4){
         *userScore+=1;
     }else if(wordLen == 5){
@@ -61,45 +60,46 @@ void incrementTotalScore(int *userScore, char *word)
 
 
 int main (int argc, char ** argv) {
-    int testPoints = 0;
+    int i, points = 0, testPoints = 0, invalidSize = 0;
     char inputWord[100];
     char originalInputWord[100];
 
     FILE *inputFP;
-    char line[MAX_LINE];
+    char line [MAX_LINE];
     char *fileName;
-
-    const char *dictName = "EnglishWords.txt";
-    DNode *checkEnglish;
-    DNode *checkSubmitted;
-    static DNode *englishDictionary[BIG_HASH_SIZE];
-    static DNode *guessedWords[SMALL_HASH_SIZE];
+    
+    const char * dictName = "EnglishWords.txt";
+    DNode* checkEnglish;
+    DNode* checkSubmitted;
+    static DNode* englishDictionary [BIG_HASH_SIZE];
+    static DNode* guessedWords [SMALL_HASH_SIZE];
 
     int currentScore = 0;
     int turnCount = 0;
 
-    User *head = NULL;
-    head = (User *) malloc(sizeof(User));
+    User* head = NULL;
+    head = (User*)malloc(sizeof(User));
 
     PresetDice globalDice[16];
     RolledDice *gameBoard[4];
 
     FILE *outputFP;
-//    char readLine[MAX_LINE];
+    char readLine[MAX_LINE]; 
 
-    if (!(inputFP = fopen(dictName, "r"))) {
-        fprintf(stderr, "Could not open file \"%s\" for reading dictionary words\n", dictName);
+
+    if(!(inputFP = fopen ( dictName , "r" )))    {
+        fprintf(stderr,"Could not open file \"%s\" for reading dictionary words\n", dictName);
         return 1;
     }
 
-    while (fgets(line, MAX_LINE, inputFP) != NULL) {
+    while( fgets (line, MAX_LINE, inputFP)!=NULL ) {
         line[strcspn(line, "\r\n")] = '\0';  //trim new line characters
-        insert(englishDictionary, BIG_HASH_SIZE, convertToUpper2(&line));
-    }
-    fclose(inputFP);
+        insert (englishDictionary, BIG_HASH_SIZE, convertToUpper2(&line));
+    }   
+    fclose (inputFP);
 
-    //user playing in normal mode
-    if (argc == 1) {
+
+    if (argc == 1){
         fprintf(stdout, "playing in normal mode\n\n");
 
         system("clear");
@@ -113,7 +113,7 @@ int main (int argc, char ** argv) {
 
             convertToUpper2(&inputWord);
 
-//            User *thisUser;
+            User *thisUser;
             char inputName[100];
 
             if (strcmp(originalInputWord, "q") == 0) {
@@ -130,9 +130,10 @@ int main (int argc, char ** argv) {
                 fprintf(stdout, "What is your name? \n");
                 scanf("%s", inputName);
 
-                if (userIsInList(head, inputName) == 0) {
+                if (userIsInList(head, inputName) == 0){
                     addNode(head, inputName, currentScore);
-                } else {
+                }
+                else {
                     updateNodeWithName(head, inputName, currentScore);
                 }
 
@@ -145,128 +146,129 @@ int main (int argc, char ** argv) {
                 system("clear");
                 continue;
             }
-            //ALEX'S CODE ABOVE THIS
-            //LOGAN'S CODE BELOW THIS
+
             printGameBoard(gameBoard);
-            checkEnglish = lookUp(englishDictionary, BIG_HASH_SIZE, inputWord);
 
+            checkEnglish = lookUp (englishDictionary, BIG_HASH_SIZE, inputWord);         
+            
             if (checkEnglish != NULL) {
-                checkSubmitted = lookUp(guessedWords, SMALL_HASH_SIZE, inputWord);
-
+                checkSubmitted = lookUp (guessedWords, SMALL_HASH_SIZE, inputWord);
+                
                 if (checkSubmitted == NULL) {
-                    if (strlen(inputWord) > 2) {
-                        if (wordChecker(gameBoard, inputWord)) {
-                            insert(guessedWords, SMALL_HASH_SIZE, inputWord);
+                    if(strlen(inputWord) > 2){
+                        if(wordChecker(gameBoard, inputWord)){
+                            insert (guessedWords, SMALL_HASH_SIZE, inputWord);
                             incrementTotalScore(&currentScore, inputWord);
-                            fprintf(stdout, "Correct! You current score is now: %d \n", currentScore);
-                        } else {
-                            fprintf(stderr, "The submitted word: \'%s\'' does not abide game rules. Try again!\n",
-                                    originalInputWord);
+                            fprintf (stdout, "Correct! You current score is now: %d \n", currentScore);
+                    
+                        }else{
+                            fprintf (stderr, "The submitted word: \'%s\'' does not abide game rules. Try again!\n", originalInputWord);
                         }
-                        //commented out due to conflicting nature of code block
-                        //else {
-                        //fprintf(stderr, "The submitted word: \'%s\'' must be at least 3 letters long. Try again!\n",
-                        //originalInputWord);
-                        //}
-                    } else {
-                        fprintf(stderr, "You have already submitted the word: \'%s\'' Try again!\n", originalInputWord);
+                    }else{
+                        fprintf (stderr, "The submitted word: \'%s\'' must be at least 3 letters long. Try again!\n", originalInputWord);
                     }
-                } else if (turnCount > 0) {
-                    fprintf(stderr, "Incorrect word: \'%s\' is not in the English Dictionary. Try again!\n",
-                            originalInputWord);
+
+                }else{
+                    fprintf (stderr, "You have already submitted the word: \'%s\'' Try again!\n", originalInputWord);
                 }
 
-                fprintf(stdout, "Submit a word you found:\n");
-                scanf("%s", inputWord);
-                turnCount++;
-                system("clear");
+            }else if (turnCount > 0){
+                fprintf (stderr, "Incorrect word: \'%s\' is not in the English Dictionary. Try again!\n", originalInputWord);
             }
-            for (int i = 0; i < 4; i++) {
-                free(gameBoard[i]);
-            }
-            freeAll(head);
+            fprintf(stdout, "Submit a word you found:\n");
+            scanf("%s", inputWord);
+            turnCount++;
+            system("clear");
         }
-        //user is in test mode
-    }else if (argc == 2) {
+        for (int i = 0; i < 4; i++) {
+            free(gameBoard[i]);
+        }
+        freeAll(head);
 
-        fileName = argv[1];
+    }else if (argc == 2){
+                fileName =  argv[1];
         fprintf(stdout, "playing in test mode with file: %s\n", fileName);
         FILE *testFileFP;
-        char testLine[MAX_LINE];
+        char testLine [MAX_LINE];
+        char *testWords;
         char **testBoard;
         int fileLineCounter = 1;
-        int i, j;
+        int i,j;
+        DNode* testResult;
         int begin = 0;
 
         // (1) read first line which is the board
-        if (!(testFileFP = fopen(fileName, "r"))) {
-            fprintf(stderr, "Could not open test file \'%s\' for reading\n", fileName);
+        if(!(testFileFP = fopen ( fileName , "r" )))    {
+            fprintf(stderr,"Could not open test file \'%s\' for reading\n", fileName);
             return 1;
-        } else if (!(outputFP = fopen("result.txt", "w"))) {
-            fprintf(stderr, "Could not open result file \'%s\' for writing\n", "result.txt");
+        }else if(!(outputFP = fopen("result.txt", "w" ))){
+         fprintf(stderr,"Could not open result file \'%s\' for writing\n", "result.txt");
             return 1;
         }
 
-        while (fgets(testLine, MAX_LINE, testFileFP)!= NULL ) {
-
+        while (fgets (testLine, MAX_LINE, testFileFP)!=NULL ) {
             testLine[strcspn(testLine, "\r\n")] = '\0';  //trim new line characters
-            if (fileLineCounter == 1) {
-                convertToBoard(testLine, &testBoard);
-                // this can be removed, it is just for testing purposes
-                for (i = 0; i < 4; i++) {
 
-                    for (j = 0; j < 4; j++) {
+            if(fileLineCounter == 1){
+                    convertToBoard(testLine, &testBoard);
 
-                        if (j != 3) {
-                            fprintf(stdout, "%c \t", testBoard[i][j]);
-                        } else {
-                            fprintf(stdout, "%c \n", testBoard[i][j]);
+                    // this can be removed, its just for testing purposes
+                    for (i = 0; i < 4; i++) {
+                        for (j = 0; j < 4; j++) {
+                            if (j != 3) {
+                                fprintf(stdout, "%c \t", testBoard[i][j] );
+                            }else {
+                                fprintf(stdout, "%c \n", testBoard[i][j] );
+                            
+                            }
                         }
+                    
                     }
-                }
-            }
-            else if (fileLineCounter >= 2) {
-
-                for (char *ptr = strtok(testLine, ","); ptr != NULL; ptr = strtok(NULL, ",")) {
-                    checkEnglish = lookUp(englishDictionary, BIG_HASH_SIZE, convertToUpper(&ptr));
-
+            
+            }else if (fileLineCounter >= 2){
+                for (char *p = strtok(testLine,","); p != NULL; p = strtok(NULL, ",")){
+                    checkEnglish = lookUp (englishDictionary, BIG_HASH_SIZE, convertToUpper(&p));
+                        
                     if (checkEnglish != NULL) {
-                        checkSubmitted = lookUp(guessedWords, SMALL_HASH_SIZE, ptr);
-
+                        checkSubmitted = lookUp (guessedWords, SMALL_HASH_SIZE, p);
+                        
                         if (checkSubmitted == NULL) {
-
-                            if (wordChecker(gameBoard, ptr)) {
-                                insert(guessedWords, SMALL_HASH_SIZE, ptr);
-                                incrementTotalScore(&testPoints, ptr);
-                                fprintf(stdout, "Correct! You total score is now: %d \n", testPoints);
-                            } else {
-                                if (begin == 0) {
-                                    fprintf(outputFP, "%s", ptr);
+                            if(testWordChecker(testBoard, p)){
+                                insert (guessedWords, SMALL_HASH_SIZE, p);
+                                incrementTotalScore(&testPoints, p);
+                                fprintf(stdout,"Correct! You total score is now: %d \n",testPoints );
+                        
+                            }else{
+                                if(begin == 0){                             
+                                    fprintf(outputFP, "%s", p );
                                     begin++;
-                                } else {
-                                    fprintf(outputFP, ",%s", ptr);
+                                }else{
+                                    fprintf(outputFP, ",%s", p );
                                 }
-                                fprintf(stderr,
-                                        "The submitted word: \'%s\'' does not abide game rules. Try again!\n", ptr);
+                                
+                                fprintf(stderr,"The submitted word: \'%s\'' does not abide game rules. Try again!\n", p);                               
                             }
-                        } else {
-                            if (begin == 0) {
-                                fprintf(outputFP, "%s", ptr);
-                                begin++;
-                            } else {
-                                fprintf(outputFP, ",%s", ptr);
-                            }
-                            fprintf(stderr, "You have already submitted the word: \'%s\'' Try again!\n", ptr);
+
+                        }else{
+                                if(begin == 0){                             
+                                    fprintf(outputFP, "%s", p );
+                                    begin++;
+                                }else{
+                                    fprintf(outputFP, ",%s", p );
+                                }
+                            fprintf(stderr,"You have already submitted the word: \'%s\'' Try again!\n", p);
                         }
-                    } else {
-                        if (begin == 0) {
-                            fprintf(outputFP, "%s", ptr);
+
+            
+                    }else{
+                        if(begin == 0){                             
+                            fprintf(outputFP, "%s", p );
                             begin++;
-                        } else {
-                            fprintf(outputFP, ",%s", ptr);
+                        }else{
+                            fprintf(outputFP, ",%s", p );
                         }
-                        fprintf(stderr, "Incorrect word: \'%s\'' is not in the English Dictionary. Try again!\n",
-                                ptr);
+
+                        fprintf(stderr,"Incorrect word: \'%s\'' is not in the English Dictionary. Try again!\n", p);
                     }
                 }
             }
@@ -275,14 +277,16 @@ int main (int argc, char ** argv) {
 
         fprintf(outputFP, "\n");
         fprintf(outputFP, "%d\n", testPoints);
-        fclose(testFileFP);
+
+        fclose (testFileFP);
 
         for (int i = 0; i < 4; i++) {
             free(testBoard[i]);
         }
-
         free(testBoard);
+
         fclose(outputFP);
+
     }
 
     freeDictionary(englishDictionary, BIG_HASH_SIZE);
@@ -290,5 +294,3 @@ int main (int argc, char ** argv) {
 
     return 0;
 }
-
-
