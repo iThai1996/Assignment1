@@ -3,7 +3,6 @@
 void initializePresetDice(PresetDice *inputArrayOfDice)
 {
     int i;
-
     for (i = 0; i < 16; i++) {
         inputArrayOfDice[i].position = 0;
     }

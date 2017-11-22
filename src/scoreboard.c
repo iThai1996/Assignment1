@@ -135,11 +135,11 @@ User* getLastNode(User* head)
 
 void printScoreboard(User* head)
 {
-        fprintf(stdout, "\n");
-        fprintf(stdout, "---- SCORE BOARD ---- \n");
+    fprintf(stdout, "\n");
+    fprintf(stdout, "---- SCORE BOARD ---- \n");
 
-    if (head -> next != NULL) {
-        User* current = head -> next;
+    if (head->next != NULL) {
+        User *current = head->next;
         while (current != NULL) {
             printf("\n");
             printf("Player name: %s \n", current->name);

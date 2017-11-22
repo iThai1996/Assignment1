@@ -15,9 +15,10 @@
 void incrementTotalScore(int *userScore, char *word);
 
 void freeAndResetBoard(struct rolledDice** gameBoard,
-        struct presetDice* inputArrayOfDice) {
+    struct presetDice* inputArrayOfDice) {
 
-    for (int i = 0; i < 4; i++) {
+    int i;
+    for (i = 0; i < 4; i++) {
         free(gameBoard[i]);
     }
     rollDice(gameBoard, inputArrayOfDice);
@@ -27,34 +28,40 @@ void freeAndResetBoard(struct rolledDice** gameBoard,
 char *convertToUpper(char **upper){
     char *upperDeref = *upper;
 
-    for(int i = 0; upperDeref[i]; i++){
+    int i;
+    for(i = 0; upperDeref[i]; i++){
       upperDeref[i] = toupper(upperDeref[i]);
     }
     return upperDeref;
 }
 
-char *convertToUpper2(char (*upper)[]){
+char *convertToUpper2(char (*upper)[]) {
     char *upperDeref = *upper;
 
-    for(int i = 0; upperDeref[i]; i++){
-      upperDeref[i] = toupper(upperDeref[i]);
+    int i;
+    for (i = 0; upperDeref[i]; i++) {
+        upperDeref[i] = toupper(upperDeref[i]);
     }
     return upperDeref;
 }
 
-void incrementTotalScore(int *userScore, char *word){
+void incrementTotalScore(int *userScore, char *word) {
     int wordLen = strlen(word);
-    fprintf(stdout, "wordLen: %d\n",wordLen );
-    if(wordLen == 3 || wordLen == 4){
-        *userScore+=1;
-    }else if(wordLen == 5){
-        *userScore+=2;
-    }else if(wordLen == 6){
-        *userScore+=3;
-    }else if(wordLen == 7){
-        *userScore+=5;
-    }else if(wordLen >= 8){
-        *userScore+=11;
+    fprintf(stdout, "wordLen: %d\n", wordLen);
+    if (wordLen == 3 || wordLen == 4) {
+        *userScore += 1;
+    }
+    else if (wordLen == 5) {
+        *userScore += 2;
+    }
+    else if (wordLen == 6) {
+        *userScore += 3;
+    }
+    else if (wordLen == 7) {
+        *userScore += 5;
+    }
+    else if (wordLen >= 8) {
+        *userScore += 11;
     }
 }
 
@@ -129,7 +136,8 @@ int main (int argc, char ** argv) {
 
                 if (userIsInList(head, inputName) == 0) {
                     addNode(head, inputName, currentScore);
-                } else {
+                }
+                else {
                     updateNodeWithName(head, inputName, currentScore);
                 }
 
@@ -157,20 +165,24 @@ int main (int argc, char ** argv) {
                             incrementTotalScore(&currentScore, inputWord);
                             fprintf(stdout, "Correct! You current score is now: %d \n", currentScore);
 
-                        } else {
+                        }
+                        else {
                             fprintf(stderr, "The submitted word: \'%s\'' does not abide game rules. Try again!\n",
                                     originalInputWord);
                         }
-                    } else {
+                    }
+                    else {
                         fprintf(stderr, "The submitted word: \'%s\'' must be at least 3 letters long. Try again!\n",
                                 originalInputWord);
                     }
 
-                } else {
+                }
+                else {
                     fprintf(stderr, "You have already submitted the word: \'%s\'' Try again!\n", originalInputWord);
                 }
 
-            } else if (turnCount > 0) {
+            }
+            else if (turnCount > 0) {
                 fprintf(stderr, "Incorrect word: \'%s\' is not in the English Dictionary. Try again!\n",
                         originalInputWord);
             }
@@ -179,12 +191,15 @@ int main (int argc, char ** argv) {
             turnCount++;
             system("clear");
         }
-        for (int i = 0; i < 4; i++) {
+
+        int i;
+        for (i = 0; i < 4; i++) {
             free(gameBoard[i]);
         }
         freeAll(head);
 
-    } else if (argc == 2) {
+    }
+    else if (argc == 2) {
         fileName = argv[1];
         fprintf(stdout, "playing in test mode with file: %s\n", fileName);
         FILE *testFileFP;
@@ -198,7 +213,8 @@ int main (int argc, char ** argv) {
         if (!(testFileFP = fopen(fileName, "r"))) {
             fprintf(stderr, "Could not open test file \'%s\' for reading\n", fileName);
             return 1;
-        } else if (!(outputFP = fopen("result.txt", "w"))) {
+        }
+        else if (!(outputFP = fopen("result.txt", "w"))) {
             fprintf(stderr, "Could not open result file \'%s\' for writing\n", "result.txt");
             return 1;
         }
@@ -214,7 +230,8 @@ int main (int argc, char ** argv) {
                     for (j = 0; j < 4; j++) {
                         if (j != 3) {
                             fprintf(stdout, "%c \t", testBoard[i][j]);
-                        } else {
+                        }
+                        else {
                             fprintf(stdout, "%c \n", testBoard[i][j]);
 
                         }
@@ -222,8 +239,10 @@ int main (int argc, char ** argv) {
 
                 }
 
-            } else if (fileLineCounter >= 2) {
-                for (char *p = strtok(testLine, ","); p != NULL; p = strtok(NULL, ",")) {
+            }
+            else if (fileLineCounter >= 2) {
+                char *p;
+                for (p = strtok(testLine, ","); p != NULL; p = strtok(NULL, ",")) {
                     checkEnglish = lookUp(englishDictionary, BIG_HASH_SIZE, convertToUpper(&p));
 
                     if (checkEnglish != NULL) {
@@ -235,11 +254,13 @@ int main (int argc, char ** argv) {
                                 incrementTotalScore(&testPoints, p);
                                 fprintf(stdout, "Correct! You total score is now: %d \n", testPoints);
 
-                            } else {
+                            }
+                            else {
                                 if (begin == 0) {
                                     fprintf(outputFP, "%s", p);
                                     begin++;
-                                } else {
+                                }
+                                else {
                                     fprintf(outputFP, ",%s", p);
                                 }
 
@@ -247,22 +268,26 @@ int main (int argc, char ** argv) {
                                         p);
                             }
 
-                        } else {
+                        }
+                        else {
                             if (begin == 0) {
                                 fprintf(outputFP, "%s", p);
                                 begin++;
-                            } else {
+                            }
+                            else {
                                 fprintf(outputFP, ",%s", p);
                             }
                             fprintf(stderr, "You have already submitted the word: \'%s\'' Try again!\n", p);
                         }
 
 
-                    } else {
+                    }
+                    else {
                         if (begin == 0) {
                             fprintf(outputFP, "%s", p);
                             begin++;
-                        } else {
+                        }
+                        else {
                             fprintf(outputFP, ",%s", p);
                         }
 
@@ -278,7 +303,7 @@ int main (int argc, char ** argv) {
 
         fclose(testFileFP);
 
-        for (int i = 0; i < 4; i++) {
+        for (i = 0; i < 4; i++) {
             free(testBoard[i]);
         }
         free(testBoard);
